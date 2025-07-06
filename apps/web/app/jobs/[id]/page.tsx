@@ -86,29 +86,9 @@ const mockJobs = [
 ];
 
 const containerStyle = css`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-`;
-
-const backButton = css`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  color: #374151;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 2rem;
-  
-  &:hover {
-    background: #f9fafb;
-    border-color: #d1d5db;
-  }
+  max-width: 80rem;
+  margin: 2.5rem auto 0 auto;
+  padding: 0 1rem;
 `;
 
 const headerSection = css`
@@ -327,10 +307,6 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
       <>
         <Header />
         <div css={containerStyle}>
-          <button css={backButton} onClick={() => router.back()}>
-            <ArrowLeft size={16} />
-            뒤로가기
-          </button>
           <div css={headerSection}>
             <h1>채용 정보를 찾을 수 없습니다.</h1>
           </div>
@@ -347,124 +323,119 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
     <>
       <Header />
       <div css={containerStyle}>
-        <button css={backButton} onClick={() => router.back()}>
-          <ArrowLeft size={16} />
-          뒤로가기
-        </button>
+        <div css={headerSection}>
+          <h1 css={jobTitle}>{job.title}</h1>
+          
+          <div css={companyInfo}>
+            <span css={companyName}>{job.company}</span>
+            <span css={jobType}>{job.type}</span>
+          </div>
 
-      <div css={headerSection}>
-        <h1 css={jobTitle}>{job.title}</h1>
-        
-        <div css={companyInfo}>
-          <span css={companyName}>{job.company}</span>
-          <span css={jobType}>{job.type}</span>
-        </div>
-
-        <div css={metaGrid}>
-          <div css={metaItem}>
-            <MapPin size={16} />
-            {job.location}
-          </div>
-          <div css={metaItem}>
-            <DollarSign size={16} />
-            {job.salary}
-          </div>
-          <div css={metaItem}>
-            <Clock size={16} />
-            {job.postedAt}
-          </div>
-          <div css={metaItem}>
-            <Briefcase size={16} />
-            경력 {job.experience}
-          </div>
-          <div css={metaItem}>
-            <BookOpen size={16} />
-            {job.education}
-          </div>
-        </div>
-
-        <div css={statsRow}>
-          <div css={statItem}>
-            <Users size={16} />
-            조회 {job.views?.toLocaleString()}
-          </div>
-          <div css={statItem}>
-            <Calendar size={16} />
-            지원 {job.applicants}
-          </div>
-        </div>
-      </div>
-
-      <div css={contentGrid}>
-        <div css={mainContent}>
-          <div css={section}>
-            <h2 css={sectionTitle}>주요 기술 스택</h2>
-            <div css={techStack}>
-              {job.tags.map((tag, index) => (
-                <span key={index} css={techItem}>
-                  {tag}
-                </span>
-              ))}
+          <div css={metaGrid}>
+            <div css={metaItem}>
+              <MapPin size={16} />
+              {job.location}
+            </div>
+            <div css={metaItem}>
+              <DollarSign size={16} />
+              {job.salary}
+            </div>
+            <div css={metaItem}>
+              <Clock size={16} />
+              {job.postedAt}
+            </div>
+            <div css={metaItem}>
+              <Briefcase size={16} />
+              경력 {job.experience}
+            </div>
+            <div css={metaItem}>
+              <BookOpen size={16} />
+              {job.education}
             </div>
           </div>
 
-          <div css={section}>
-            <h2 css={sectionTitle}>채용 내용</h2>
-            <p css={description}>{job.description}</p>
-          </div>
-
-          <div css={section}>
-            <h2 css={sectionTitle}>자격 요건</h2>
-            <ul css={list}>
-              {job.requirements.map((req, index) => (
-                <li key={index} css={listItem}>
-                  {req}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div css={section}>
-            <h2 css={sectionTitle}>복리후생</h2>
-            <ul css={list}>
-              {job.benefits.map((benefit, index) => (
-                <li key={index} css={listItem}>
-                  {benefit}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div css={section}>
-            <h2 css={sectionTitle}>근무 환경</h2>
-            <ul css={list}>
-              {job.workEnvironment.map((env, index) => (
-                <li key={index} css={listItem}>
-                  {env}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div css={sidebar}>
-          <div css={applyCard}>
-            <button css={applyButton} onClick={handleApply}>
-              지원하기
-            </button>
-            
-            <div css={deadlineInfo}>
-              <div css={deadlineText}>지원 마감일</div>
-              <div css={deadlineText}>{job.deadline}</div>
+          <div css={statsRow}>
+            <div css={statItem}>
+              <Users size={16} />
+              조회 {job.views?.toLocaleString()}
             </div>
-            
-            <div css={recruitmentInfo}>
-              <div css={recruitmentText}>채용 인원</div>
-              <div css={recruitmentText}>{job.recruitmentCount}명</div>
+            <div css={statItem}>
+              <Calendar size={16} />
+              지원 {job.applicants}
             </div>
           </div>
         </div>
-      </div>
+
+        <div css={contentGrid}>
+          <div css={mainContent}>
+            <div css={section}>
+              <h2 css={sectionTitle}>주요 기술 스택</h2>
+              <div css={techStack}>
+                {job.tags.map((tag, index) => (
+                  <span key={index} css={techItem}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div css={section}>
+              <h2 css={sectionTitle}>채용 내용</h2>
+              <p css={description}>{job.description}</p>
+            </div>
+
+            <div css={section}>
+              <h2 css={sectionTitle}>자격 요건</h2>
+              <ul css={list}>
+                {job.requirements.map((req, index) => (
+                  <li key={index} css={listItem}>
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div css={section}>
+              <h2 css={sectionTitle}>복리후생</h2>
+              <ul css={list}>
+                {job.benefits.map((benefit, index) => (
+                  <li key={index} css={listItem}>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div css={section}>
+              <h2 css={sectionTitle}>근무 환경</h2>
+              <ul css={list}>
+                {job.workEnvironment.map((env, index) => (
+                  <li key={index} css={listItem}>
+                    {env}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div css={sidebar}>
+            <div css={applyCard}>
+              <button css={applyButton} onClick={handleApply}>
+                지원하기
+              </button>
+              
+              <div css={deadlineInfo}>
+                <div css={deadlineText}>지원 마감일</div>
+                <div css={deadlineText}>{job.deadline}</div>
+              </div>
+              
+              <div css={recruitmentInfo}>
+                <div css={recruitmentText}>채용 인원</div>
+                <div css={recruitmentText}>{job.recruitmentCount}명</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

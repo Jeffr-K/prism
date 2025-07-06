@@ -28,7 +28,8 @@ const searchContainer = css`
   border-radius: 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  margin-top: -2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   position: relative;
   z-index: 10;
 `;
