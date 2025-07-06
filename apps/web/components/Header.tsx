@@ -182,7 +182,7 @@ export default function Header() {
             </Link>
           </div>
           
-          {/* 가운데: 채용관, 부트캠프, 대나무숲, 이력서 */}
+          {/* 가운데: 채용관, 부트캠프, 대나무숲, 은두니, 이력서 */}
           <nav css={centerSection}>
             <Link href="/jobs" css={navLink}>
               채용관
@@ -192,6 +192,9 @@ export default function Header() {
             </Link>
             <Link href="/community" css={navLink}>
               대나무숲
+            </Link>
+            <Link href="/eunduni" css={navLink}>
+              은두니
             </Link>
             <Link href="/resume" css={navLink}>
               이력서

@@ -1,0 +1,94 @@
+---
+description: 유저 등록 기능 규칙
+globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+alwaysApply: true
+---
+
+# 회원가입 페이지 구성
+
+## 회원가입 규칙
+
+### 1. 필수 입력 필드
+- **이메일**: 이메일 형식 유효성 검사 필수
+- **비밀번호**: 최소 8자리, 영문+숫자+특수문자 조합
+- **비밀번호 확인**: 비밀번호와 일치 여부 확인
+- **이름**: 2-20자 한글/영문만 허용
+- **전화번호**: 010-0000-0000 형식 또는 01000000000 형식
+
+### 2. 선택 입력 필드
+- **생년월일**: YYYY-MM-DD 형식
+- **성별**: 남/여/선택안함
+- **마케팅 동의**: 체크박스 (선택사항)
+
+### 3. 유효성 검사 규칙
+```typescript
+// 이메일 유효성 검사
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// 비밀번호 유효성 검사 (8자 이상, 영문+숫자+특수문자)
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+// 한국 휴대폰 번호 유효성 검사
+const phoneRegex = /^010-?([0-9]{4})-?([0-9]{4})$/;
+
+// 한글/영문 이름 유효성 검사
+const nameRegex = /^[가-힣a-zA-Z]{2,20}$/;
+```
+
+### 4. API 통신 규칙
+- **회원가입 엔드포인트**: `POST /api/auth/signup`
+- **이메일 중복 체크**: `GET /api/auth/check-email?email={email}`
+- **에러 처리**: 400, 409(중복), 500 상태코드별 메시지 표시
+
+### 5. UI/UX 규칙
+- **실시간 유효성 검사**: 각 필드 blur 시 즉시 검증
+- **에러 메시지**: 필드 하단에 빨간색으로 표시
+- **성공 메시지**: 회원가입 완료 시 초록색 알림
+- **로딩 상태**: 제출 버튼 비활성화 및 스피너 표시
+- **반응형**: 모바일/데스크톱 대응
+
+### 6. 보안 규칙
+- **비밀번호 암호화**: bcrypt 사용, 최소 10 rounds
+- **CSRF 토큰**: 폼 제출 시 토큰 검증
+- **Rate Limiting**: IP당 분당 최대 5회 시도
+- **입력값 sanitization**: XSS 방지를 위한 입력값 정제
+
+### 7. 접근성 규칙
+- **라벨**: 모든 input에 적절한 label 또는 aria-label
+- **에러 메시지**: aria-describedby로 연결
+- **포커스 관리**: 에러 발생 시 해당 필드로 포커스 이동
+- **키보드 네비게이션**: Tab 순서 논리적 구성
+
+### 8. 코드 구조 규칙
+```typescript
+// 컴포넌트 구조
+interface SignupFormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  phone: string;
+  birthDate?: string;
+  gender?: 'male' | 'female' | 'other';
+  marketingConsent: boolean;
+}
+
+// 훅 사용 패턴
+const useSignupForm = () => {
+  // 폼 상태 관리
+  // 유효성 검사 로직
+  // API 호출 로직
+  // 에러 처리
+};
+```
+
+### 9. 테스트 규칙
+- **단위 테스트**: 각 유효성 검사 함수 테스트
+- **통합 테스트**: 회원가입 플로우 전체 테스트
+- **E2E 테스트**: 실제 사용자 시나리오 테스트
+
+### 10. 파일 네이밍 규칙
+- **컴포넌트**: `SignupForm.tsx`, `SignupPage.tsx`
+- **훅**: `useSignupForm.ts`, `useSignupValidation.ts`
+- **유틸**: `signupValidation.ts`, `signupApi.ts`
+- **타입**: `signup.types.ts`
