@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { css } from '@emotion/react';
 import { Bell, Settings, Search } from 'lucide-react';
+import { useState } from 'react';
 
 const headerStyle = css`
   position: sticky;
@@ -30,6 +31,7 @@ const headerContent = css`
 const leftSection = css`
   display: flex;
   align-items: center;
+  gap: 2rem;
 `;
 
 const logoLink = css`
@@ -65,7 +67,7 @@ const appName = css`
 const centerSection = css`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 `;
 
 const navLink = css`
@@ -78,50 +80,6 @@ const navLink = css`
   &:hover {
     color: #2563eb;
   }
-`;
-
-const searchSection = css`
-  display: flex;
-  align-items: center;
-  flex: 1;
-  max-width: 24rem;
-  margin: 0 2rem;
-`;
-
-const searchContainer = css`
-  position: relative;
-  width: 100%;
-`;
-
-const searchInput = css`
-  width: 100%;
-  padding: 0.5rem 1rem 0.5rem 2.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  background: #f9fafb;
-  transition: all 0.2s;
-  
-  &:focus {
-    outline: none;
-    border-color: #2563eb;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-  
-  &::placeholder {
-    color: #9ca3af;
-  }
-`;
-
-const searchIcon = css`
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-  width: 1rem;
-  height: 1rem;
 `;
 
 const rightSection = css`
@@ -167,12 +125,129 @@ const userAvatar = css`
   }
 `;
 
+const searchContainer = css`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+`;
+
+const searchInput = css`
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background: white;
+  width: 200px;
+  transition: all 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+  
+  &::placeholder {
+    color: #9ca3af;
+  }
+`;
+
+const searchButton = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: #1d4ed8;
+  }
+`;
+
+const abroadsBadge = css`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background: #8b5cf6;
+  color: white;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: bounce 2s infinite;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-3px);
+    }
+    60% {
+      transform: translateY(-2px);
+    }
+  }
+`;
+
+const pulseAnimation = css`
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 1rem;
+    background: rgba(139, 92, 246, 0.3);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+  }
+`;
+
 export default function Header() {
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const handleSearch = () => {
+    if (searchKeyword.trim()) {
+      // 검색 로직 구현
+      console.log('Search:', searchKeyword);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <header css={headerStyle}>
       <div css={headerInner}>
         <div css={headerContent}>
-          {/* 좌측: 로고, 앱이름 */}
           <div css={leftSection}>
             <Link href="/" css={logoLink}>
               <div css={logoBox}>
@@ -180,40 +255,31 @@ export default function Header() {
               </div>
               <span css={appName}>Prism</span>
             </Link>
+            <nav css={centerSection}>
+              <Link href="/jobs" css={navLink}>채용관</Link>
+              <Link href="/bootcamp" css={navLink}>부트캠프</Link>
+              <Link href="/community" css={navLink}>대나무숲</Link>
+              <Link href="/eunduni" css={navLink}>은두니</Link>
+              <Link href="/resume" css={navLink}>이력서</Link>
+              <Link href="/ara" css={navLink}>아라보기</Link>
+              <div css={searchContainer}>
+                <input
+                  type="text"
+                  placeholder="검색어를 입력하세요"
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  css={searchInput}
+                />
+                <button onClick={handleSearch} css={searchButton}>
+                  <Search size={16} />
+                </button>
+                <div css={[abroadsBadge, pulseAnimation]}>
+                  Abroads
+                </div>
+              </div>
+            </nav>
           </div>
-          
-          {/* 가운데: 채용관, 부트캠프, 대나무숲, 은두니, 이력서 */}
-          <nav css={centerSection}>
-            <Link href="/jobs" css={navLink}>
-              채용관
-            </Link>
-            <Link href="/bootcamp" css={navLink}>
-              부트캠프
-            </Link>
-            <Link href="/community" css={navLink}>
-              대나무숲
-            </Link>
-            <Link href="/eunduni" css={navLink}>
-              은두니
-            </Link>
-            <Link href="/resume" css={navLink}>
-              이력서
-            </Link>
-          </nav>
-          
-          {/* 통합검색창 */}
-          <div css={searchSection}>
-            <div css={searchContainer}>
-              <Search css={searchIcon} size={16} />
-              <input
-                type="text"
-                placeholder="직무, 회사, 키워드를 검색해보세요"
-                css={searchInput}
-              />
-            </div>
-          </div>
-          
-          {/* 오른쪽: 알림창, 이미지, 설정아이콘 */}
           <div css={rightSection}>
             <button css={iconButton}>
               <Bell size={20} />
