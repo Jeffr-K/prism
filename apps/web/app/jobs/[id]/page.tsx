@@ -6,6 +6,7 @@ import { css } from '@emotion/react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Building, MapPin, Clock, DollarSign, Users, Calendar, BookOpen, Briefcase } from 'lucide-react';
 import Header from '@/components/Header';
+import React, { use } from 'react';
 
 // JobList에서 사용하는 mock 데이터
 const mockJobs = [
@@ -83,12 +84,6 @@ const mockJobs = [
     ]
   }
 ];
-
-interface JobDetailProps {
-  params: {
-    id: string;
-  };
-}
 
 const containerStyle = css`
   max-width: 1200px;
@@ -322,9 +317,10 @@ const recruitmentText = css`
   font-size: 0.875rem;
 `;
 
-export default function JobDetailPage({ params }: JobDetailProps) {
+export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const job = mockJobs.find(job => job.id === params.id);
+  const { id } = use(params);
+  const job = mockJobs.find(job => job.id === id);
 
   if (!job) {
     return (
