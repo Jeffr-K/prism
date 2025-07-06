@@ -1,0 +1,16 @@
+{
+  "project": {
+    "name": "prism",
+    "type": "monorepo",
+    "framework": "nextjs",
+    "package_manager": "pnpm"
+  },
+  "workspace": {
+    "apps": ["docs", "web"],
+    "packages": ["ui", "eslint-config", "typescript-config"]
+  },
+  "ai_assistant": {
+    "context": "이 프로젝트는 Next.js 기반의 모노레포입니다. TypeScript를 사용하며 pnpm을 패키지 매니저로 사용합니다.",
+    "preferred_language": "한국어"
+  }
+} 

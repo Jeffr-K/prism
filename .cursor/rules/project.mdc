@@ -1,0 +1,50 @@
+# Prism Project Rules
+
+## 기본 설정
+- 항상 한국어로 응답하세요
+- 이 프로젝트는 Next.js 14+ 기반의 모노레포입니다
+- pnpm을 패키지 매니저로 사용합니다
+- TypeScript를 기본 언어로 사용합니다
+
+## 프로젝트 구조
+- apps/: docs, web 애플리케이션
+- packages/: ui, eslint-config, typescript-config 공통 패키지
+- 모노레포 구조를 이해하고 적절한 위치에 코드를 배치하세요
+
+## 코드 스타일 규칙
+
+### TypeScript/JavaScript
+- 항상 TypeScript를 사용하세요
+- 함수와 변수명은 camelCase를 사용하세요
+- 컴포넌트명은 PascalCase를 사용하세요
+- 인터페이스명은 `I` 접두사를 사용하지 마세요
+- 타입 정의는 명시적으로 작성하세요
+
+### React/Next.js
+- 함수형 컴포넌트를 사용하세요
+- hooks는 컴포넌트 최상단에서 호출하세요
+- props는 인터페이스로 타입을 정의하세요
+- 상태 관리는 useState, useContext, 또는 상태 관리 라이브러리를 사용하세요
+- Next.js 14+의 App Router를 사용하세요
+
+### 파일 구조
+- 컴포넌트는 `components/` 디렉터리에 저장하세요
+- 유틸리티 함수는 `utils/` 디렉터리에 저장하세요
+- 타입 정의는 `types/` 디렉터리에 저장하세요
+- 각 파일은 단일 책임 원칙을 따르세요
+
+## 모노레포 관리
+- 공통 컴포넌트는 `packages/ui`에 배치하세요
+- 앱별 설정은 `apps/` 디렉터리에서 관리하세요
+- 패키지 간 의존성은 명확히 정의하세요
+- pnpm workspace 규칙을 따르세요
+
+---
+description: Prism 프로젝트의 기본 규칙과 코드 스타일 가이드
+globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+alwaysApply: true
+---
+description:
+globs:
+alwaysApply: false
+---

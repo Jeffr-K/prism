@@ -1,102 +1,144 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+/** @jsxImportSource @emotion/react */
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
+'use client';
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+import { useState } from 'react';
+import { css } from '@emotion/react';
+import Header from '@/components/Header';
+import SearchBar from '@/components/SearchBar';
+import JobList from '@/components/JobList';
+import Footer from '@/components/Footer';
 
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+interface SearchFilters {
+  keyword: string;
+  location: string;
+  jobCategory: string;
+  salary: string;
+  experience: string;
+  education: string;
+  employmentType: string;
+}
+
+const containerStyle = css`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const mainStyle = css`
+  flex: 1;
+`;
+
+const heroSection = css`
+  background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%);
+  padding: 4rem 0;
+`;
+
+const heroInner = css`
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+`;
+
+const heroText = css`
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const heroTitle = css`
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1rem;
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
+`;
+
+const highlight = css`
+  color: #2563eb;
+`;
+
+const heroDesc = css`
+  font-size: 1.25rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const searchSection = css`
+  padding: 2rem 0;
+  background: #f8fafc;
+`;
+
+const sectionStyle = css`
+  padding: 4rem 0;
+  background: #fff;
+`;
+
+const sectionInner = css`
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+`;
+
+
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [currentPage, setCurrentPage] = useState(1);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleSearch = (filters: SearchFilters) => {
+    setCurrentPage(1);
+    console.log('Search filters:', filters);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleFavoriteToggle = (jobId: string) => {
+    console.log('Favorite toggled for job:', jobId);
+  };
+
+  return (
+    <div css={containerStyle}>
+      <Header />
+      <main css={mainStyle}>
+        <section css={heroSection}>
+          <div css={heroInner}>
+            <div css={heroText}>
+              <h1 css={heroTitle}>
+                당신의 꿈을 <span css={highlight}>실현</span>하세요
+              </h1>
+              <p css={heroDesc}>
+                Prism에서 최고의 기회를 찾고, 당신의 역량을 마음껏 발휘하세요.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section css={searchSection}>
+          <div css={sectionInner}>
+            <SearchBar onSearch={handleSearch} />
+          </div>
+        </section>
+
+        <section css={sectionStyle}>
+          <div css={sectionInner}>
+            <JobList 
+              currentPage={currentPage}
+              totalPages={5}
+              onPageChange={handlePageChange}
+              onFavoriteToggle={handleFavoriteToggle}
             />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
+          </div>
+        </section>
+
+
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.com →
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }

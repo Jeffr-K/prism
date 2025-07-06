@@ -1,0 +1,8 @@
+{
+  "prompts": {
+    "code_review": "이 코드를 리뷰하고 개선점을 제안해주세요.",
+    "bug_fix": "이 버그를 수정하는 방법을 알려주세요.",
+    "feature_implementation": "이 기능을 구현하는 코드를 작성해주세요.",
+    "documentation": "이 코드에 대한 문서를 작성해주세요."
+  }
+} 

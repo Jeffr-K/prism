@@ -1,0 +1,21 @@
+{
+    "project_name": "prism",
+    "ai_model": "claude-3.5-sonnet",
+    "temperature": 0.7,
+    "file_types": {
+        "typescript": {
+            "formatter": "prettier"
+        },
+        "javascript": {
+            "formatter": "prettier"
+        }
+    },
+    "search": {
+        "exclude_patterns": [
+            "node_modules/**",
+            "dist/**",
+            "build/**",
+            "*.log"
+        ]
+    }
+}
